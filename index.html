@@ -1,0 +1,272 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Patolmés</title>
+<meta name="theme-color" content="#bfe3f7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f2431" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Patolmés"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf6fd;--sf:#fff;--ink:#16384f;--mut:#6f90a5;--b:#3fa4dc;--b2:#8bd0f5;--l:#e0f1fb;--sh:0 10px 28px #3fa4dc22;--ok:#2f9d6a;--er:#c9483f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#0f2431;--sf:#16364a;--ink:#e6f4fc;--mut:#8db0c6;--l:#1f4560;--sh:0 10px 28px #0006}}
+*{box-sizing:border-box}[hidden]{display:none!important}html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:16px/1.45 "DM Sans",system-ui,sans-serif;background:radial-gradient(120% 40% at 50% 0,var(--l),transparent);padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+header{padding:22px 20px 6px;max-width:560px;margin:auto;display:flex;align-items:flex-start;gap:10px}header>div{flex:1}header h1{margin:0;font:600 30px Fredoka,"DM Sans",sans-serif;display:flex;align-items:center;gap:8px}header p{margin:2px 0 0;color:var(--mut);font-size:14px}
+#sy{flex:none;width:auto;margin:6px 0 0;padding:6px 11px;font-size:12px;font-weight:700;background:var(--sf);color:var(--mut);box-shadow:var(--sh);border-radius:14px}#sy.ok{color:var(--ok)}#sy.er{color:var(--er)}
+main{padding:12px 16px;max-width:560px;margin:auto}
+.card{background:var(--sf);border-radius:24px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+.warn{background:#fff3d6;color:#5b4300;border-radius:20px;padding:14px 16px;margin-bottom:14px;font-size:14px}.warn b{display:block;margin-bottom:2px}
+@media(prefers-color-scheme:dark){.warn{background:#4a3a10;color:#ffe9a8}}
+h2,h3{font-family:Fredoka,"DM Sans",sans-serif;font-weight:600}h2{margin:0 0 6px;font-size:19px}p{margin:4px 0}a{color:var(--b);font-weight:700}
+input,select,textarea,button{font:inherit;color:inherit;border:0;border-radius:16px;padding:12px 14px;background:var(--l);width:100%;margin:4px 0;outline:0}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{box-shadow:0 0 0 2px var(--b)}textarea{min-height:64px}
+button{background:linear-gradient(135deg,var(--b),#5bbbea);color:#fff;font-weight:700;margin-top:8px;cursor:pointer}button.s{background:var(--l);color:var(--ink)}button.x{width:auto;padding:2px 9px;background:none;color:var(--mut);margin:0;float:right}
+button.lk{width:auto;display:inline;padding:0;margin:0;background:none;color:var(--b);text-decoration:underline;font-weight:700}.hero button.lk{color:#fff}
+.row{display:flex;gap:8px}.row>*{flex:1}.mut{color:var(--mut);font-size:13px}summary{cursor:pointer;margin-top:10px}
+.chips{display:flex;gap:6px}.chips button{margin:4px 0 0;padding:10px 4px;font-size:13px;background:var(--l);color:var(--ink);font-weight:500}.chips button.on{background:linear-gradient(135deg,var(--b),#5bbbea);color:#fff;font-weight:700}
+.hero{background:linear-gradient(135deg,#2f93d0,#7cc8f0);color:#fff;border-radius:30px;padding:22px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;box-shadow:var(--sh)}
+.hero h2{font-size:28px;margin:2px 0 8px}.hero p{margin:2px 0;opacity:.95}
+.ring{position:relative;width:104px;height:104px;flex:none}.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 22px Fredoka,sans-serif}
+nav{position:fixed;left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--sf) 85%,transparent);backdrop-filter:blur(14px);border-radius:28px;display:flex;padding:6px;box-shadow:var(--sh);max-width:532px;margin:auto;gap:2px}
+nav button{flex:1;margin:0;padding:7px 0;font-size:11px;background:none;color:var(--mut);font-weight:500;border-radius:22px;line-height:1.3}nav button span{display:block;font-size:20px}nav button.on{background:var(--b);color:#fff;font-weight:700}
+.g7{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.dy{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;cursor:pointer}
+.dy.t{box-shadow:inset 0 0 0 2px var(--b);font-weight:700}.dy.sel{background:var(--l)}.dy.r{background:var(--b);color:#fff}
+.dy.h::after{content:"";width:5px;height:5px;border-radius:9px;background:var(--b2);position:absolute;bottom:3px}.dy.r.h::after{background:#fff}
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.dk{background:var(--l);border-radius:20px;padding:10px 4px 12px;text-align:center;font-size:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;margin:0;width:100%;font-weight:500;color:var(--ink)}.dk.lock{opacity:.55;cursor:default}
+.it{padding:10px 0;font-size:14px;border-top:1px solid var(--l)}.it:first-of-type{border:0}
+#md{position:fixed;inset:0;background:#0b2230cc;z-index:9;display:flex;align-items:center;justify-content:center;padding:20px}#md .card{max-width:420px;width:100%;max-height:90vh;overflow:auto;text-align:center}
+#md .stage{background:radial-gradient(circle at 50% 40%,var(--l),transparent 72%);border-radius:24px;padding:6px 0 0;margin-bottom:6px}
+#ph{width:100%;max-height:200px;object-fit:cover;border-radius:18px;background:var(--l);margin:6px 0}
+.pop{animation:pop .7s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.3) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.tag{display:inline-block;background:var(--l);color:var(--ink);border-radius:12px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:6px}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#16384f;color:#fff;padding:10px 16px;border-radius:16px;font-size:14px;font-weight:700;z-index:10;box-shadow:0 8px 24px #0004;max-width:90vw}
+code{background:var(--l);padding:1px 6px;border-radius:8px;font-size:13px;word-break:break-all}
+@media(prefers-reduced-motion:reduce){.pop{animation:none}}
+</style></head><body>
+<header><div><h1><span id="lg"></span>Patolmés</h1><p>12 meses, 12 retos, 12 patos por descubrir</p></div><button id="sy" onclick="go('mas')" aria-label="Estado de la copia en la nube"></button></header>
+<main id="app"></main><div id="md" hidden role="dialog" aria-modal="true"></div><div id="toast" hidden role="status"></div>
+<nav id="nav" aria-label="Secciones"></nav>
+<script>
+const VER='1.0.0';
+const $=s=>document.querySelector(s),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const D=[['Ánade azulón','Anas platyrhynchos','Es el antepasado de la mayoría de patos domésticos.'],
+['Pato cuchara','Spatula clypeata','Su pico en forma de espátula le sirve para filtrar el agua.'],
+['Ánade friso','Mareca strepera','Su plumaje gris es discreto, pero esconde un espejuelo blanco y negro en las alas.'],
+['Cerceta común','Anas crecca','Es uno de los patos más pequeños de Europa.'],
+['Pato colorado','Netta rufina','El macho luce una cabeza anaranjada y se alimenta de plantas acuáticas.'],
+['Porrón europeo','Aythya ferina','Bucea para buscar su comida bajo el agua.'],
+['Malvasía cabeciblanca','Oxyura leucocephala','Especie amenazada cuya recuperación en España ha sido un gran caso de conservación.'],
+['Pato mandarín','Aix galericulata','Originario de Asia oriental, simboliza la fidelidad en la cultura china.'],
+['Eider común','Somateria mollissima','Su plumón se ha usado tradicionalmente para rellenar edredones.'],
+['Pato joyuyo','Aix sponsa','Anida en huecos de árboles y los patitos saltan del nido poco después de nacer.'],
+['Serreta mediana','Mergus serrator','Su pico dentado le ayuda a atrapar peces.'],
+['Tarro blanco','Tadorna tadorna','Suele anidar en madrigueras abandonadas de conejo.']];
+const HAB=['Fuertafit','Bicicleta','Caminata','Otra'];
+
+/* ---------- PATOS: silueta redondita (trazada del diseño de la usuaria) + paleta por especie ---------- */
+const SIL="M61.1 0.0C59.6 0.1 58.1 0.3 56.7 0.6C55.3 0.9 53.9 1.4 52.5 2.0C51.2 2.5 49.8 3.2 48.6 4.0C47.4 4.8 46.2 5.7 45.1 6.7C44.1 7.7 43.1 8.8 42.1 10.0C41.2 11.1 40.4 12.4 39.7 13.6C39.0 14.9 38.4 16.3 37.9 17.7C37.5 19.1 37.1 20.5 37.0 22.0C36.9 23.4 37.1 25.0 37.5 26.3C37.8 27.7 38.5 29.1 39.3 30.3C40.1 31.5 42.3 32.8 42.2 33.6C42.1 34.5 39.8 35.1 38.5 35.6C37.2 36.2 35.7 36.6 34.3 37.0C32.9 37.4 31.4 37.7 30.0 38.0C28.5 38.2 27.1 38.4 25.6 38.6C24.2 38.7 22.7 38.8 21.2 38.7C19.7 38.7 18.3 38.5 16.8 38.3C15.4 38.1 13.9 37.8 12.5 37.4C11.1 36.9 9.8 36.2 8.4 35.8C7.0 35.4 5.4 34.7 4.1 35.0C2.9 35.3 1.5 36.5 0.9 37.7C0.2 38.9 0.1 40.5 0.0 42.0C-0.1 43.4 0.2 44.9 0.4 46.4C0.5 47.8 0.8 49.3 1.1 50.7C1.4 52.2 1.8 53.6 2.3 55.0C2.7 56.4 3.2 57.8 3.9 59.1C4.5 60.4 5.2 61.7 5.9 63.0C6.7 64.2 7.5 65.5 8.4 66.6C9.3 67.8 10.3 68.9 11.3 69.9C12.4 71.0 13.5 72.0 14.6 72.9C15.7 73.8 16.9 74.7 18.2 75.5C19.4 76.3 20.7 77.0 22.0 77.7C23.3 78.3 24.7 78.9 26.1 79.4C27.4 79.9 28.9 80.3 30.3 80.7C31.7 81.1 33.1 81.4 34.6 81.7C36.0 81.9 37.5 82.1 39.0 82.2C40.4 82.4 41.9 82.4 43.4 82.5C44.8 82.5 46.3 82.4 47.8 82.3C49.2 82.2 50.7 82.0 52.1 81.8C53.6 81.6 55.0 81.3 56.5 81.0C57.9 80.7 59.3 80.3 60.7 79.9C62.1 79.4 63.5 78.9 64.9 78.4C66.3 77.8 67.6 77.2 68.9 76.5C70.2 75.9 71.5 75.2 72.7 74.4C74.0 73.6 75.2 72.7 76.3 71.8C77.4 70.8 78.5 69.8 79.5 68.7C80.5 67.6 81.4 66.5 82.2 65.2C83.0 64.0 83.7 62.7 84.3 61.4C84.9 60.0 85.4 58.6 85.7 57.2C86.1 55.8 86.3 54.3 86.4 52.8C86.5 51.4 86.4 49.9 86.2 48.4C86.0 47.0 85.6 45.6 85.1 44.2C84.6 42.8 83.9 41.5 83.1 40.2C82.4 39.0 81.4 37.9 80.4 36.8C79.4 35.7 77.3 34.6 77.2 33.8C77.0 33.0 78.4 32.4 79.5 31.8C80.6 31.2 82.3 30.9 83.6 30.3C85.0 29.8 86.4 29.2 87.7 28.6C89.0 28.0 90.4 27.3 91.6 26.6C92.9 25.9 94.2 25.2 95.4 24.4C96.7 23.5 98.5 22.7 99.0 21.7C99.4 20.7 99.1 19.0 98.3 18.3C97.4 17.6 95.4 17.9 93.9 17.6C92.5 17.4 91.0 17.2 89.6 16.9C88.1 16.5 86.5 16.3 85.3 15.7C84.1 15.0 83.2 14.0 82.3 12.9C81.5 11.8 81.1 10.2 80.3 9.0C79.4 7.8 78.4 6.7 77.3 5.7C76.3 4.7 75.0 3.8 73.8 3.1C72.5 2.4 71.1 1.8 69.8 1.3C68.4 0.8 66.9 0.5 65.5 0.3C64.0 0.1 62.5 -0.0 61.1 0.0Z";
+const EYE=[68.3,16.2];
+let _u=0;
+const PAL=[
+/*0 azulón*/ {body:'#b8b1a3',head:'#1d7a5a',bill:'#f2c230',wing:'#8e8575',breast:'#8c4a2b',ring:'#ffffff',tail:'#2b2b30',spec:'#3a6fb8'},
+/*1 cuchara*/ {body:'#a4552f',head:'#1c5a4a',bill:'#4d535a',wing:'#8cc4ea',breast:'#f7f5ee',tail:'#2b2b30',spoon:1},
+/*2 friso*/ {body:'#9b9a92',head:'#b3ab9c',bill:'#4b4b4e',wing:'#7f7e77',tail:'#2b2b30',spec:'#f4f4f0'},
+/*3 cerceta*/ {body:'#b9bec2',head:'#9a4631',bill:'#3a3a3e',wing:'#8f959a',band:'#2f9060',tail:'#e8c867',spec:'#2f9060',breast:'#e9cfa8'},
+/*4 colorado*/ {body:'#7a5a45',head:'#dc6a2a',bill:'#d3393a',wing:'#6a4c39',breast:'#2c2a2e',flank:'#f6f4ee',tail:'#2c2a2e',crest:'#e98a45'},
+/*5 porrón*/ {body:'#b7bbbf',head:'#a8442b',bill:'#7e9bb2',wing:'#9fa4a9',breast:'#2c2a2e',tail:'#2c2a2e'},
+/*6 malvasía*/ {body:'#a5552f',head:'#f7f6f1',bill:'#3f80c6',wing:'#8f4726',cap:'#2c2a2e',tail:'#2c2a2e',swell:1,stiff:1,dark:1},
+/*7 mandarín*/ {body:'#b4743b',head:'#e3893c',bill:'#d8412e',wing:'#dc7f26',breast:'#6e3b7a',stripe:'#ffffff',tail:'#3a2f3d',crest:'#e3893c',spec:'#2a6f9c'},
+/*8 eider*/ {body:'#f6f5f1',head:'#f7f6f1',bill:'#cfd9a6',wing:'#e6e5df',breast:'#f2d8cc',cap:'#2c2a2e',nape:'#a9d6b3',belly:'#2c2a2e',tail:'#2c2a2e',dark:1},
+/*9 joyuyo*/ {body:'#6a5442',head:'#237a69',bill:'#d6483a',wing:'#4f3f33',breast:'#8e3b2e',flank:'#d3b88f',stripe:'#ffffff',crest:'#237a69',tail:'#2b2b30',spec:'#3f6fb0'},
+/*10 serreta*/ {body:'#9da3a7',head:'#1b4a3e',bill:'#d2473b',wing:'#7f868b',breast:'#a96a44',ring:'#ffffff',crest:'#1b4a3e',tail:'#2b2b30',thin:1},
+/*11 tarro*/ {body:'#f7f6f2',head:'#1f6d52',bill:'#e1423a',wing:'#2b2b30',breast:'#b7562f',tail:'#2b2b30',knob:1,bandw:1}
+];
+function duckArt(i,z=64,waves=0){
+ const p=PAL[i]||PAL[0],n=++_u,c='cp'+n,W=112,H=waves?100:96;
+ const crest=p.crest?`<path d="M50 3C40 -4 26 0 15 12C25 10 33 12 38 18C42 24 44 30 46 34L56 20Z" fill="${p.crest}"/>`:'';
+ const stiff=p.stiff?`<path d="M4 38L-7 24L13 33Z" fill="${p.tail}"/>`:'';
+ const spoon=p.spoon?`<ellipse cx="96.5" cy="19" rx="5.6" ry="4.7" fill="${p.bill}"/>`:'';
+ const knob=p.knob?`<ellipse cx="81" cy="9.5" rx="3.6" ry="3.2" fill="${p.bill}"/>`:'';
+ const swell=p.swell?`<ellipse cx="85" cy="19" rx="6" ry="6.2" fill="${p.bill}"/>`:'';
+ const wv=waves?`<path d="M-6 88q6.5-6 13 0t13 0 13 0 13 0 13 0 13 0 13 0 13 0 13 0" fill="none" stroke="#8bd0f5" stroke-width="2.6" stroke-linecap="round" opacity=".75"/>`:'';
+ const eyeC=p.dark?'#ffffff':'#ffffff';
+ return `<svg viewBox="-6 -8 ${W} ${H}" width="${z}" height="${Math.round(z*H/W)}" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="${c}"><path d="${SIL}"/></clipPath><linearGradient id="sh${n}" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#001a2e" stop-opacity="0"/><stop offset="1" stop-color="#001a2e" stop-opacity=".2"/></linearGradient><radialGradient id="gl${n}" cx=".3" cy=".25" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+${wv}${crest}${stiff}${spoon}${knob}${swell}
+<g clip-path="url(#${c})">
+<rect x="-8" y="-10" width="120" height="100" fill="${p.body}"/>
+${p.belly?`<path d="M-8 62Q40 56 110 52V95H-8Z" fill="${p.belly}"/>`:''}
+${p.tail?`<ellipse cx="2" cy="40" rx="13" ry="10" fill="${p.tail}"/>`:''}
+${p.breast?`<ellipse cx="88" cy="52" rx="22" ry="21" fill="${p.breast}"/>`:''}
+${p.bandw?`<path d="M62 30Q74 30 90 36V46Q74 40 60 40Z" fill="${p.breast}"/>`:''}
+${p.flank?`<ellipse cx="40" cy="50" rx="15" ry="7" fill="${p.flank}"/>`:''}
+<path d="M12 46C28 41 48 44 64 53C66 66 53 76 37 74C22 70 12 58 12 46Z" fill="${p.wing}"/>
+${p.spec?`<path d="M26 63Q42 69 58 60" fill="none" stroke="#fff" stroke-width="6.4" stroke-linecap="round" opacity=".92"/><path d="M26 63Q42 69 58 60" fill="none" stroke="${p.spec}" stroke-width="3.6" stroke-linecap="round"/>`:''}
+${p.nape||p.cap||true?`<path d="M-8 -10H112V34Q66 38.5 -8 33Z" fill="${p.head}"/>`:''}
+${p.cap?`<path d="M30 -10H112V3Q80 7 56 14Q42 8 30 4Z" fill="${p.cap}"/>`:''}
+${p.nape?`<path d="M36 12Q44 14 46 30L36 34Q34 22 36 12Z" fill="${p.nape}"/>`:''}
+${p.band?`<path d="M44 20Q64 11 84 21" fill="none" stroke="${p.band}" stroke-width="6.5" stroke-linecap="round"/>`:''}
+${p.stripe?`<path d="M62 13Q50 12 38 24" fill="none" stroke="${p.stripe}" stroke-width="2.8" stroke-linecap="round"/>`:''}
+${p.ring?`<path d="M41 33.5Q60 38 78 32.5" fill="none" stroke="${p.ring}" stroke-width="3" stroke-linecap="round"/>`:''}
+<path d="M84.6 8H112V38H74.6Z" fill="${p.bill}"/>
+${p.thin?`<path d="M84 9H112V15H85Z" fill="${p.bill}"/>`:''}
+<rect x="-8" y="-10" width="120" height="100" fill="url(#sh${n})"/>
+<rect x="-8" y="-10" width="120" height="100" fill="url(#gl${n})"/>
+</g>
+<circle cx="${EYE[0]}" cy="${EYE[1]}" r="4.3" fill="${eyeC}"/><circle cx="${EYE[0]+.6}" cy="${EYE[1]+.2}" r="2.5" fill="#14293a"/>
+</svg>`;
+}
+const duckSil=(c='#3fa4dc',z=34)=>`<svg viewBox="-2 -2 104 86.6" width="${z}" height="${Math.round(z*86.6/104)}" aria-hidden="true" focusable="false"><path d="${SIL}" fill="${c}"/><circle cx="${EYE[0]}" cy="${EYE[1]}" r="4.3" fill="#fff"/></svg>`;
+
+const iso=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),today=()=>iso(new Date()),mk=d=>d.slice(0,7);
+
+/* ---------- ESTADO ---------- */
+const LIB0=['Flexiones','Sentadillas','Movilidad de cadera','Equilibrio a una pierna','Fuerza de agarre','Plancha'];
+let S;try{S=JSON.parse(localStorage.getItem('pm'))}catch{}
+S=S||{};S.t=S.t||0;S.rs=S.rs||0;S.months=S.months||{};S.ses=S.ses||[];S.lib=S.lib||[...LIB0];S.lt=S.lt||0;S.del=S.del||[];
+Object.values(S.months).forEach(m=>{if(m.u==null)m.u=S.t||0});
+let tab='reto',cal=new Date(),sel=today(),regDate=null,regType=null,histN=30;cal.setDate(1);
+const cur=()=>mk(today());
+const rd=k=>new Set(S.ses.filter(s=>s.type=='reto'&&mk(s.date)==k).map(s=>s.date));
+const tg=k=>{const[y,m]=k.split('-');return Math.max(1,Math.round((S.months[k].freq||3)*new Date(y,m,0).getDate()/7))};
+const touch=k=>{if(S.months[k])S.months[k].u=Date.now()};
+function persist(){try{localStorage.setItem('pm',JSON.stringify(S))}catch{}}
+function save(){S.t=Date.now();persist();queuePush()}
+function streaks(){const d=[...new Set(S.ses.filter(s=>s.type=='reto').map(s=>s.date))].sort();let b=0,c=0,p=null;d.forEach(x=>{c=p&&(new Date(x)-new Date(p))==864e5?c+1:1;b=Math.max(b,c);p=x});return b}
+const unl=()=>Object.values(S.months).filter(m=>m.duck!=null);
+function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2200)}
+function go(t,date){tab=t;if(date)regDate=date;render();if(t=='reto'&&date)setTimeout(()=>$('#reg')?.scrollIntoView({behavior:'smooth',block:'start'}),30);else scrollTo(0,0)}
+
+/* ---------- RETO ---------- */
+function vReto(){const k=cur(),m=S.months[k],ml=MES[+k.slice(5)-1];
+const ej=`<button class="lk" onclick="ficha(0,'ej')">Ver un pato de ejemplo</button>`;
+const form=`<input id="f-skill" list="dl" placeholder="Habilidad (flexiones, equilibrio…)" value="${E(m?.skill)}"><datalist id="dl">${S.lib.map(x=>`<option>${E(x)}</option>`).join('')}</datalist>
+<input id="f-start" placeholder="Punto de partida (p. ej. 5 flexiones)" value="${E(m?.start)}"><input id="f-goal" placeholder="Objetivo (p. ej. 15 flexiones)" value="${E(m?.goal)}">
+<select id="f-freq">${[1,2,3,4,5,6,7].map(n=>`<option value="${n}" ${(m?.freq||3)==n?'selected':''}>${n} día${n>1?'s':''} por semana</option>`).join('')}</select><button onclick="saveReto()">Guardar reto</button>`;
+if(!m)return`<div class="hero"><div><p>${ml}</p><h2>Elige tu reto del mes</h2><p>Un pato te espera al final.</p><p>${ej}</p></div>${duckSil('#fff',64)}</div><div class="card">${form}</div>`+vRegForm(false)+vLast();
+const n=rd(k).size,t=tg(k),ok=n>=t,C=2*Math.PI*44;
+const ss=S.ses.filter(s=>s.type=='reto'&&mk(s.date)==k),df=ss.filter(s=>s.diff);
+return`<div class="hero"><div><p>${ml}</p><h2>${E(m.skill)}</h2><p>${E(m.start)||'—'} → ${E(m.goal)||'—'}</p><p>${m.freq} días por semana</p>${m.done?'':`<p>${ej}</p>`}</div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff55" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*Math.min(1,n/t)} ${C}" transform="rotate(-90 50 50)"/></svg><b>${n}/${t}</b></div></div>
+<div class="card">${m.done?`<p style="display:flex;align-items:center;gap:8px">${duckArt(m.duck,40)} <span>Reto conseguido · <button class="lk" onclick="ficha(${m.duck})">ver pato</button></span></p>`:`<button ${ok?'':'class="s"'} onclick="finish()">${ok?'Completar reto y descubrir pato':'Faltan '+(t-n)+' días para completar el reto'}</button>`}<details><summary class="mut">Editar reto</summary>${form}</details></div>`
++vRegForm(true)+vLast()+
+`<div class="card"><h2>Informe de ${ml}</h2><p class="mut">${n} días · ${ss.length} sesiones${df.length?' · dificultad media '+(df.reduce((a,x)=>a+ +x.diff,0)/df.length).toFixed(1)+'/5':''}</p><textarea placeholder="Conclusiones del experimento…" onchange="setConcl('${k}',this.value)">${E(m.concl)}</textarea></div>`}
+function setConcl(k,v){S.months[k].concl=v;touch(k);save()}
+function saveReto(){const k=cur(),o=S.months[k]||{};S.months[k]={...o,skill:$('#f-skill').value.trim(),start:$('#f-start').value,goal:$('#f-goal').value,freq:+$('#f-freq').value,tests:o.tests||[],u:Date.now()};if(!S.months[k].skill)return alert('Escribe una habilidad');save();render()}
+function finish(){const k=cur(),m=S.months[k];if(rd(k).size<tg(k))return alert('Aún te faltan días de práctica para completar el reto.');
+const used=unl().map(x=>x.duck),free=D.map((_,i)=>i).filter(i=>!used.includes(i));if(!free.length)return;m.done=today();m.duck=free[Math.random()*free.length|0];touch(k);save();render();ficha(m.duck,'new')}
+
+/* ---------- REGISTRO (ahora dentro de la pantalla Reto) ---------- */
+const sRow=s=>`<div class="it"><b>${s.date}</b> ${s.type=='reto'?'🎯 '+E(S.months[mk(s.date)]?.skill):s.type=='habitual'?'🚴 '+E(s.act):'📓 Diario'} <button class="x" onclick="delS(${s.id})" aria-label="Borrar registro">✕</button><br><span class="mut">${[s.reps&&s.reps+' rep',s.min&&s.min+' min',s.diff&&'dif. '+s.diff+'/5',s.feel,s.easy&&'Fácil: '+s.easy,s.hard&&'Cuesta: '+s.hard,s.notes].filter(Boolean).map(E).join(' · ')}</span></div>`;
+function vRegForm(hasReto){const t=regType||(hasReto?'reto':'habitual'),d=regDate||today();
+return`<div class="card" id="reg"><h2>Registrar sesión</h2><input type="date" id="r-date" value="${d}" aria-label="Fecha"><input type="hidden" id="r-type" value="${t}">
+<div class="chips" role="group" aria-label="Tipo de registro">${[['reto','🎯 Reto'],['habitual','🚴 Habitual'],['diario','📓 Diario']].map(x=>`<button data-t="${x[0]}" class="${x[0]==t?'on':''}" onclick="setT('${x[0]}')">${x[1]}</button>`).join('')}</div>
+<select id="r-act" ${t=='habitual'?'':'hidden'} aria-label="Actividad">${HAB.map(x=>`<option>${x}</option>`).join('')}</select>
+<div id="x-met" ${t=='diario'?'hidden':''}><div class="row"><input id="r-reps" type="number" inputmode="numeric" placeholder="Repeticiones"><input id="r-min" type="number" inputmode="numeric" placeholder="Minutos"></div><select id="r-diff" aria-label="Dificultad"><option value="">Dificultad</option>${[1,2,3,4,5].map(n=>`<option>${n}</option>`).join('')}</select></div>
+<div id="x-dia" ${t=='diario'?'':'hidden'}><input id="r-easy" placeholder="Qué movimientos me resultan fáciles"><input id="r-hard" placeholder="Cuáles siguen costando"></div>
+<input id="r-feel" placeholder="Sensaciones del cuerpo"><textarea id="r-notes" placeholder="Observaciones"></textarea><button onclick="addS()">Guardar registro</button></div>`}
+function setT(t){regType=t;$('#r-type').value=t;document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('on',b.dataset.t==t));$('#r-act').hidden=t!='habitual';$('#x-met').hidden=t=='diario';$('#x-dia').hidden=t!='diario'}
+function addS(){const g=i=>$('#r-'+i)?.value||'',t=g('type'),d=g('date')||today();if(t=='reto'&&!S.months[mk(d)])return alert('Define primero el reto de ese mes');
+S.ses.push({id:Date.now(),date:d,type:t,act:t=='habitual'?g('act'):'',reps:g('reps'),min:g('min'),diff:g('diff'),feel:g('feel'),notes:g('notes'),easy:g('easy'),hard:g('hard')});sel=d;regDate=null;save();render();toast('Registro guardado ✓')}
+function delS(id){if(confirm('¿Borrar este registro?')){S.ses=S.ses.filter(s=>s.id!=id);S.del.push(id);save();render()}}
+const sorted=()=>[...S.ses].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+function vLast(){const L=sorted().slice(0,3);return`<div class="card"><h2>Últimos registros</h2>${L.map(sRow).join('')||'<p class="mut">Aún no hay registros.</p>'}${S.ses.length>3?`<button class="s" onclick="go('hist')">Ver historial completo</button>`:''}</div>`}
+function vHist(){const L=sorted();return`<div class="card"><h2>Historial · ${L.length}</h2>${L.slice(0,histN).map(sRow).join('')||'<p class="mut">Aún no hay registros. Añádelos desde la pestaña Reto.</p>'}${L.length>histN?`<button class="s" onclick="histN+=30;render()">Mostrar más</button>`:''}</div>`}
+
+/* ---------- CALENDARIO ---------- */
+function vCal(){const y=cal.getFullYear(),mo=cal.getMonth(),k=mk(iso(cal)),dim=new Date(y,mo+1,0).getDate(),off=(cal.getDay()+6)%7,R=rd(k),H=new Set(S.ses.filter(s=>s.type=='habitual'&&mk(s.date)==k).map(s=>s.date));
+let c='';for(let i=0;i<off;i++)c+='<div></div>';
+for(let d=1;d<=dim;d++){const x=`${k}-${String(d).padStart(2,'0')}`;c+=`<div class="dy ${R.has(x)?'r':''} ${H.has(x)?'h':''} ${x==today()?'t':''} ${x==sel?'sel':''}" onclick="sel='${x}';render()">${d}</div>`}
+const ds=S.ses.filter(s=>s.date==sel),m=S.months[k];
+return`<div class="card"><div class="row"><button class="s" onclick="cal.setMonth(cal.getMonth()-1);render()" aria-label="Mes anterior">‹</button><h2 style="text-align:center;flex:3;margin:auto">${MES[mo]} ${y}</h2><button class="s" onclick="cal.setMonth(cal.getMonth()+1);render()" aria-label="Mes siguiente">›</button></div>
+<div class="g7 mut" style="margin:8px 0">${'LMXJVSD'.split('').map(x=>`<div>${x}</div>`).join('')}</div><div class="g7">${c}</div>
+<p class="mut">${m?`Constancia: ${R.size} de ${tg(k)} días del reto. `:''}Azul = reto · punto = entrenamiento habitual</p></div>
+<div class="card"><h2>${sel}</h2>${ds.map(sRow).join('')||'<p class="mut">Sin registros.</p>'}
+<div class="row"><button onclick="quick()">✓ Marcar reto</button><button class="s" onclick="go('reto','${sel}')">+ Registrar</button></div></div>`}
+function quick(){if(!S.months[mk(sel)])return alert('Define primero el reto de ese mes');if(S.ses.some(s=>s.date==sel&&s.type=='reto'))return;S.ses.push({id:Date.now(),date:sel,type:'reto'});save();render()}
+
+/* ---------- PATOS ---------- */
+function vDucks(){const U=unl(),by={};U.forEach(m=>by[m.duck]=1);
+return`<div class="card"><h2>Patoteca · ${U.length}/12</h2><div class="dg">${D.map((d,i)=>by[i]?`<button class="dk" onclick="ficha(${i})">${duckArt(i,64)}<span>${d[0]}</span></button>`:`<div class="dk lock">${duckSil('#c9d8e2',56)}<span>?</span></div>`).join('')}</div>
+<p class="mut" style="margin-top:12px">Cada reto completado descubre un pato al azar. <button class="lk" onclick="ficha(0,'ej')" style="color:var(--b)">Ver un pato de ejemplo</button></p></div>`+vYear()}
+function vYear(){const y=new Date().getFullYear();return`<div class="card"><h2>Resumen ${y}</h2>${MES.map((n,i)=>{const m=S.months[`${y}-${String(i+1).padStart(2,'0')}`];return`<div class="it"><b>${n}</b> ${m?E(m.skill)+' · '+(m.done?'✅ '+D[m.duck][0]:'en curso'):'<span class="mut">—</span>'}</div>`}).join('')}</div>`}
+function closeM(){$('#md').hidden=true}
+function ficha(i,mode){const d=D[i],e=$('#md');e.hidden=false;e.onclick=ev=>{if(ev.target==e)closeM()};
+e.innerHTML=`<div class="card">${mode=='new'?'<h2>🎉 ¡Nueva especie descubierta!</h2>':mode=='ej'?'<span class="tag">Ejemplo de pato que puedes ganar</span>':''}<div class="stage"><div class="${mode=='new'?'pop':''}">${duckArt(i,230,1)}</div></div><h2>${d[0]}</h2><p class="mut"><i>${d[1]}</i></p><p>${d[2]}</p>${mode=='ej'?'<p class="mut">Es solo un ejemplo: tu pato se elige al azar cuando completas un reto.</p>':''}<img id="ph" alt="" hidden><button onclick="closeM()">Cerrar</button></div>`;
+fetch('https://es.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(d[1])).then(r=>r.json()).then(j=>{const u=j.thumbnail?.source,im=$('#ph');if(u&&im){im.onload=()=>im.hidden=false;im.src=u}}).catch(()=>{})}
+addEventListener('keydown',e=>{if(e.key=='Escape')closeM()});
+
+/* ---------- MÁS ---------- */
+function vMore(){const n=S.ses.filter(s=>s.type=='reto').length,u=unl().length,sk=streaks(),dia=S.ses.filter(s=>s.type=='diario').length;
+const B=[['🌱','Primer paso',n>=1],['🔥','Racha de 7 días',sk>=7],['💪','20 sesiones de reto',n>=20],['🦆','Primer pato',u>=1],['🪺','3 patos',u>=3],['🏞️','6 patos',u>=6],['👑','Los doce patos',u>=12],['📓','5 entradas de diario',dia>=5],['📚','5 ideas en la biblioteca',S.lib.length>=5]];
+return`<div class="card"><h2>Insignias</h2>${B.map(b=>`<div class="it" style="${b[2]?'':'opacity:.35'}">${b[0]} ${b[1]}</div>`).join('')}</div>
+<div class="card"><h2>Biblioteca de retos</h2>${S.lib.map((x,i)=>`<div class="it">${E(x)} <button class="x" onclick="libDel(${i})" aria-label="Quitar">✕</button></div>`).join('')}<div class="row"><input id="l-n" placeholder="Nueva idea"><button style="flex:0 0 90px" onclick="libAdd()">Añadir</button></div></div>`
++vSync()+vInstall()+
+`<div class="card"><h2>Tus datos</h2><p class="mut">Siempre se guardan en este dispositivo${cfg()?' y se copian a tu Gist':''}. Si no usas el Gist, haz copias a mano.</p><button class="s" onclick="dl()">Exportar copia (JSON)</button><button class="s" onclick="$('#imp').click()">Importar copia (JSON)</button><input id="imp" type="file" accept="application/json,.json" hidden onchange="imp(this)"><button class="s" onclick="wipe()">Borrar todos los datos</button><p class="mut" style="margin-top:12px">Patolmés v${VER}</p></div>`}
+function libAdd(){const v=$('#l-n').value.trim();if(v){S.lib.push(v);S.lt=Date.now();save();render()}}
+function libDel(i){S.lib.splice(i,1);S.lt=Date.now();save();render()}
+function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:'application/json'}));a.download='patolmes-'+today()+'.json';a.click()}
+function imp(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch{return alert('Ese archivo no es un JSON válido.')}
+if(!j||typeof j!='object'||typeof j.months!='object'||!Array.isArray(j.ses))return alert('Ese archivo no parece una copia de Patolmés.');
+if(!confirm('Se combinarán los datos del archivo con los que ya tienes (no se borra nada). ¿Continuar?'))return;
+S=merge(S,j);save();render();toast('Copia importada ✓')}).finally(()=>inp.value='')}
+function wipe(){if(!confirm('¿Borrar TODOS los datos'+(cfg()?' (también en tu Gist)':'')+'? Antes puedes exportar una copia.'))return;const now=Date.now();S={t:now,rs:now,months:{},ses:[],lib:[...LIB0],lt:now,del:[]};save();render()}
+
+/* ---------- SINCRONIZACIÓN CON GIST ---------- */
+const GF='patolmes.json',GA='https://api.github.com/gists';
+const cfg=()=>{try{const c=JSON.parse(localStorage.getItem('pm_sync'));return c&&c.token&&c.gist?c:null}catch{return null}};
+let sy={st:cfg()?'idle':'off',at:+localStorage.getItem('pm_sync_at')||0,msg:''},busy=false,again=false,pushT;
+const hdr=t=>({Authorization:'Bearer '+t,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'});
+const gid=v=>{const m=String(v||'').match(/[0-9a-f]{20,40}/gi);return m?m[m.length-1]:''};
+function norm(o){const ms={};Object.keys(o.months||{}).sort().forEach(k=>ms[k]=o.months[k]);return{rs:o.rs||0,months:ms,ses:[...(o.ses||[])].sort((a,b)=>a.id-b.id),lib:o.lib||[],lt:o.lt||0,del:[...new Set(o.del||[])].sort((a,b)=>a-b)}}
+function merge(a,b){const rs=Math.max(a.rs||0,b.rs||0),del=[...new Set([...(a.del||[]),...(b.del||[])])].filter(x=>x>rs),ds=new Set(del),ses=new Map();
+[...(a.ses||[]),...(b.ses||[])].forEach(s=>{if(s&&s.id>rs&&!ds.has(s.id))ses.set(s.id,s)});
+const months={};new Set([...Object.keys(a.months||{}),...Object.keys(b.months||{})]).forEach(k=>{const x=a.months?.[k],y=b.months?.[k],m=!x?y:!y?x:((x.u||0)>=(y.u||0)?x:y);if(m&&(m.u||0)>=rs)months[k]=m});
+const la=a.lt||0,lb=b.lt||0,lib=la==lb?[...new Set([...(a.lib||[]),...(b.lib||[])])]:la>lb?a.lib||[]:b.lib||[];
+return{t:Math.max(a.t||0,b.t||0),rs,months,ses:[...ses.values()],lib,lt:Math.max(la,lb),del}}
+function setSy(st,msg){sy.st=st;sy.msg=msg||'';const b=$('#sy');if(b){b.className=st=='ok'?'ok':st=='err'?'er':'';b.textContent=st=='off'?'☁ Sin copia':st=='busy'?'☁ Sincronizando…':st=='err'?'⚠ Sin sincronizar':st=='idle'?'☁ Conectado':'☁ Sincronizado'}if(tab=='mas'&&!/INPUT|TEXTAREA/.test(document.activeElement?.tagName))render()}
+const ago=t=>{if(!t)return'nunca';const m=Math.round((Date.now()-t)/6e4);return m<1?'ahora mismo':m<60?'hace '+m+' min':m<1440?'hace '+Math.round(m/60)+' h':'el '+new Date(t).toLocaleDateString('es-ES')}
+async function gapi(url,opt,tk){let r;try{r=await fetch(url,{...opt,headers:{...hdr(tk),...(opt?.headers||{})},cache:'no-store'})}catch{throw new Error('Sin conexión con GitHub. Se reintentará más tarde.')}
+if(r.status==401)throw new Error('El token no es válido o ha caducado.');if(r.status==403)throw new Error('GitHub rechazó la petición (¿el token tiene permiso "gist"? ¿demasiadas peticiones?).');if(r.status==404)throw new Error('No encuentro ese Gist con ese token. Revisa el ID y que sea de la misma cuenta que el token.');if(!r.ok)throw new Error('Error de GitHub ('+r.status+').');return r.json()}
+async function readRemote(c){const g=await gapi(GA+'/'+c.gist,{},c.token),f=g.files?.[GF];if(!f)throw new Error('Ese Gist no contiene '+GF+'. Déjalo vacío para crear uno nuevo.');
+let t=f.content;if(f.truncated){const r=await fetch(f.raw_url,{cache:'no-store'});t=await r.text()}try{return JSON.parse(t)}catch{throw new Error('El Gist tiene un '+GF+' que no se puede leer.')}}
+const body=()=>JSON.stringify(norm(S),null,1);
+async function syncNow(){const c=cfg();if(!c)return;if(busy){again=true;return}busy=true;setSy('busy');
+try{const r=await readRemote(c),m=merge(S,r),changed=JSON.stringify(norm(m))!=JSON.stringify(norm(S));
+if(changed){S=m;persist();if(!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName))render()}
+if(JSON.stringify(norm(m))!=JSON.stringify(norm(r)))await gapi(GA+'/'+c.gist,{method:'PATCH',body:JSON.stringify({files:{[GF]:{content:body()}}})},c.token);
+sy.at=Date.now();localStorage.setItem('pm_sync_at',sy.at);setSy('ok')}
+catch(e){setSy('err',e.message)}finally{busy=false;if(again){again=false;queuePush()}}}
+function queuePush(){if(!cfg())return;clearTimeout(pushT);pushT=setTimeout(syncNow,1500)}
+async function connect(){const tk=$('#s-tk')?.value.trim()||cfg()?.token||'',raw=$('#s-id')?.value.trim(),id=gid(raw);if(!tk)return alert('Pega tu token de GitHub (con permiso "gist").');
+if(raw&&!id)return alert('Ese ID de Gist no parece válido. Es un código de letras y números que aparece al final de la URL del Gist.');
+setSy('busy');try{let gistId=id;
+if(!gistId){const g=await gapi(GA,{method:'POST',body:JSON.stringify({description:'Patolmés · copia de datos',public:false,files:{[GF]:{content:body()}}})},tk);gistId=g.id}
+localStorage.setItem('pm_sync',JSON.stringify({token:tk,gist:gistId}));await syncNow();if(sy.st=='ok')toast('Conectado ✓')}catch(e){setSy('err',e.message)}}
+function disconnect(){if(!confirm('Se quitará el token de este dispositivo. Tus datos y el Gist se quedan como están.'))return;localStorage.removeItem('pm_sync');localStorage.removeItem('pm_sync_at');sy.at=0;setSy('off');render()}
+function vSync(){const c=cfg();
+const help=`<details><summary class="mut">¿Cómo consigo el token?</summary><p class="mut">En GitHub: Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Marca solo el permiso <b>gist</b> y copia el token. No lo subas nunca al repositorio.</p><p class="mut">Para usar otro dispositivo, pon ahí el mismo token y el mismo ID de Gist.</p></details>`;
+if(c)return`<div class="card"><h2>Copia en la nube</h2><p>${sy.st=='err'?'<b style="color:var(--er)">⚠ '+E(sy.msg)+'</b>':sy.st=='busy'?'Sincronizando…':'Sincronizado '+ago(sy.at)}</p><p class="mut">ID del Gist (cópialo para el móvil u otros dispositivos):</p><input id="s-id" value="${c.gist}" readonly onclick="this.select()"><button onclick="syncNow()">Sincronizar ahora</button><button class="s" onclick="disconnect()">Desconectar este dispositivo</button>${help}</div>`;
+return`<div class="card"><h2>Copia en la nube</h2><p class="mut">Guarda tus datos en un Gist privado de tu GitHub, así no los pierdes aunque cambies de móvil o borres el navegador.</p><input id="s-tk" type="password" autocomplete="off" placeholder="Token de GitHub (permiso gist)"><input id="s-id" placeholder="ID del Gist (vacío = crear uno nuevo)" autocomplete="off"><button onclick="connect()">Conectar y sincronizar</button>${sy.st=='err'?`<p style="color:var(--er)">⚠ ${E(sy.msg)}</p>`:''}${help}</div>`}
+
+/* ---------- INSTALAR ---------- */
+let dip=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;if(tab=='mas')render()});addEventListener('appinstalled',()=>{dip=null;render()});
+const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+function vInstall(){if(standalone())return'';const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+return`<div class="card"><h2>Instalar en el móvil</h2>${dip?`<button onclick="dip.prompt()">Instalar Patolmés</button>`:ios?'<p class="mut">En Safari: Compartir → Añadir a pantalla de inicio.</p>':'<p class="mut">En Chrome: menú ⋮ → Instalar aplicación (o Añadir a pantalla de inicio).</p>'}</div>`}
+
+/* ---------- RENDER ---------- */
+const TABS=[['reto','🎯','Reto',vReto],['cal','📅','Calendario',vCal],['hist','📋','Historial',vHist],['pat','🦆','Patos',vDucks],['mas','⚙️','Más',vMore]];
+function render(){const warn=location.protocol=='file:'?`<div class="warn"><b>Estás abriendo el archivo en local</b>Lo que guardes aquí no está en la versión online ni se sincroniza con tu móvil. Abre la app desde su dirección web.</div>`:'';
+$('#app').innerHTML=warn+TABS.find(t=>t[0]==tab)[3]();$('#nav').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" ${t[0]==tab?'aria-current="page"':''} onclick="go('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}
+$('#lg').innerHTML=duckSil('#3fa4dc',38);
+const q=new URLSearchParams(location.search);if(q.get('a')=='reg')tab='reto';
+render();setSy(cfg()?'idle':'off');if(q.get('a')=='reg')setTimeout(()=>$('#reg')?.scrollIntoView(),50);
+if(cfg())syncNow()
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'){syncNow();navigator.serviceWorker?.getRegistration().then(r=>r?.update())}});
+addEventListener('online',syncNow);
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){const had=!!navigator.serviceWorker.controller;let rl=false;
+navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}});
+navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{})}
+</script></body></html>
