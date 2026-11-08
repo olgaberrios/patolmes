@@ -40,7 +40,7 @@ nav button{flex:1;margin:0;padding:7px 0;font-size:11px;background:none;color:va
 #md .stage{background:radial-gradient(circle at 50% 40%,var(--l),transparent 72%);border-radius:24px;padding:6px 0 0;margin-bottom:6px}
 #ph{width:100%;max-height:200px;object-fit:cover;border-radius:18px;background:var(--l);margin:6px 0}
 .pop{animation:pop .7s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.3) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-.tag{display:inline-block;background:var(--l);color:var(--ink);border-radius:12px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:6px}
+.cu{text-align:left;list-style:none;margin:10px 0 4px;padding:0}.cu li{padding:9px 0;border-top:1px solid var(--l);font-size:14px;line-height:1.4}.cu b{display:block;font-size:14px}.tag{display:inline-block;background:var(--l);color:var(--ink);border-radius:12px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:6px}
 #toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#16384f;color:#fff;padding:10px 16px;border-radius:16px;font-size:14px;font-weight:700;z-index:10;box-shadow:0 8px 24px #0004;max-width:90vw}
 code{background:var(--l);padding:1px 6px;border-radius:8px;font-size:13px;word-break:break-all}
 @media(prefers-reduced-motion:reduce){.pop{animation:none}}
@@ -64,6 +64,19 @@ const D=[['Ánade azulón','Anas platyrhynchos','Es el antepasado de la mayoría
 ['Pato joyuyo','Aix sponsa','Anida en huecos de árboles y los patitos saltan del nido poco después de nacer.'],
 ['Serreta mediana','Mergus serrator','Su pico dentado le ayuda a atrapar peces.'],
 ['Tarro blanco','Tadorna tadorna','Suele anidar en madrigueras abandonadas de conejo.']];
+const CU=[
+[['Cabeza verde iridiscente','su color cambia según cómo incide la luz'],['Hembras camufladas','su plumaje pardo las ayuda a esconderse mientras incuban'],['El famoso «cuac»','el graznido más conocido lo hacen principalmente las hembras'],['Espejuelo en las alas','tienen una zona de plumas azul violáceas con bordes blancos'],['Duermen con un ojo abierto','pueden mantener medio cerebro alerta mientras descansan']],
+[['Pico en espátula','sus bordes tienen laminillas que filtran el alimento como un colador'],['Comen en remolino','nadan en círculos, solos o en grupo, para levantar plancton e invertebrados'],['Macho muy vistoso','cabeza verde oscura, pecho blanco y costados castaños; la hembra es parda'],['Ojos amarillos','el macho adulto tiene el iris de un amarillo intenso'],['Viajero de invierno','cría en el norte de Europa y Asia, y muchos pasan el invierno en España']],
+[['Espejuelo blanco','en las alas lleva un parche blanco que se ve sobre todo al volar'],['Gris con la cola negra','el macho parece sobrio, pero su parte trasera es de un negro contrastado'],['Vegetariano','se alimenta sobre todo de plantas acuáticas'],['Aprovecha lo ajeno','a menudo toma la vegetación que otras aves sacan del fondo'],['Nido en el suelo','lo esconde entre vegetación densa, cerca del agua']],
+[['Pequeño de verdad','pesa poco más de 300 gramos'],['Antifaz verde','el macho tiene una banda verde con borde claro que rodea el ojo'],['Despegue casi vertical','sale del agua de un salto y vuela en bandadas muy ágiles'],['Espejuelo verde','sus alas esconden un parche verde con bordes claros'],['Reclamo de silbido','el macho emite un sonido agudo parecido a un silbido']],
+[['Cabeza naranja','el macho luce una cabeza anaranjada y un pico rojo coral'],['Come buceando','busca plantas acuáticas zambulléndose en lagunas poco profundas'],['Copete que se hincha','durante el cortejo el macho levanta las plumas de la cabeza'],['Macho disfrazado','tras la cría pierde el plumaje vistoso y se parece a la hembra'],['Amigo de las lagunas','vive en humedales con mucha vegetación, como los del sur de España']],
+[['Buzo experto','se sumerge para buscar plantas e invertebrados en el fondo'],['Patas muy atrás','eso le hace buen nadador bajo el agua, pero torpe caminando'],['Despegue con carrerilla','necesita correr sobre el agua antes de echar a volar'],['Cabeza castaña','el macho combina cabeza rojiza, pecho negro y cuerpo gris'],['Muy sociable','en invierno forma grandes bandadas']],
+[['Cola tiesa','la mantiene erguida, y de ahí viene su aire inconfundible'],['Pico azul','el macho lo luce de este color en época de cría, con la base hinchada'],['Al borde de desaparecer','en España llegó a quedar una veintena de ejemplares'],['Huevos enormes','la hembra pone huevos muy grandes para su tamaño'],['Más nadadora que voladora','prefiere zambullirse antes que echar a volar']],
+[['Pareja simbólica','en Asia se regalan figuras de mandarines a los recién casados'],['Velas naranjas','el macho tiene unas plumas erguidas en el dorso que parecen pequeñas velas'],['Nido en un árbol','anida en huecos de los troncos'],['Viajero accidental','se escapó de colecciones y hoy hay poblaciones asilvestradas en Europa'],['Le gustan las bellotas','también come semillas y frutos del bosque']],
+[['Plumón de edredón','en Islandia se recoge de los nidos abandonados desde hace siglos'],['Se arranca plumas','la hembra se quita plumón del pecho para forrar el nido'],['Gran buceador','baja hasta unos 20 metros para buscar su comida'],['Menú de moluscos','traga mejillones enteros y los digiere dentro'],['Pico en cuña','su pico se prolonga hacia la frente y le da un perfil muy particular']],
+[['Salto de bebé','los patitos saltan desde el nido, a varios metros de altura, poco después de nacer'],['Garras para trepar','sus uñas afiladas le permiten agarrarse a las ramas'],['Cabeza multicolor','el macho combina verdes y violetas con rayas blancas y un copete'],['Ojo rojo','el macho tiene el iris rojo intenso'],['Rescatado','estuvo a punto de desaparecer en Norteamérica y se recuperó con cajas nido']],
+[['Pico dentado','sus bordes aserrados sujetan peces resbaladizos'],['Copete despeinado','las plumas de la nuca le dan un aire alborotado'],['Pesca en equipo','a veces cazan peces en grupo, coordinándose'],['Visitante invernal','se deja ver en costas y rías durante el invierno'],['Pescador bajo el agua','persigue pequeños peces buceando']],
+[['Guardería de patitos','varios adultos cuidan a grupos grandes de crías, a veces de familias distintas'],['Pico con bulto','en primavera el macho lo tiene rojo con un abultamiento en la base'],['Muda en masa','miles de adultos viajan juntos a zonas del mar del Norte para cambiar las plumas'],['Menú de caracolillos','busca moluscos diminutos en el fango'],['Llamativo','combina cuerpo blanco, banda castaña y cabeza verde oscura']]];
 const HAB=['Fuertafit','Bicicleta','Caminata','Otra'];
 
 /* ---------- PATOS: silueta redondita (trazada del diseño de la usuaria) + paleta por especie ---------- */
@@ -141,14 +154,13 @@ function go(t,date){tab=t;if(date)regDate=date;render();if(t=='reto'&&date)setTi
 
 /* ---------- RETO ---------- */
 function vReto(){const k=cur(),m=S.months[k],ml=MES[+k.slice(5)-1];
-const ej=`<button class="lk" onclick="ficha(0,'ej')">Ver un pato de ejemplo</button>`;
 const form=`<input id="f-skill" list="dl" placeholder="Habilidad (flexiones, equilibrio…)" value="${E(m?.skill)}"><datalist id="dl">${S.lib.map(x=>`<option>${E(x)}</option>`).join('')}</datalist>
 <input id="f-start" placeholder="Punto de partida (p. ej. 5 flexiones)" value="${E(m?.start)}"><input id="f-goal" placeholder="Objetivo (p. ej. 15 flexiones)" value="${E(m?.goal)}">
 <select id="f-freq">${[1,2,3,4,5,6,7].map(n=>`<option value="${n}" ${(m?.freq||3)==n?'selected':''}>${n} día${n>1?'s':''} por semana</option>`).join('')}</select><button onclick="saveReto()">Guardar reto</button>`;
-if(!m)return`<div class="hero"><div><p>${ml}</p><h2>Elige tu reto del mes</h2><p>Un pato te espera al final.</p><p>${ej}</p></div>${duckSil('#fff',64)}</div><div class="card">${form}</div>`+vRegForm(false)+vLast();
+if(!m)return`<div class="hero"><div><p>${ml}</p><h2>Elige tu reto del mes</h2><p>Un pato te espera al final.</p></div>${duckSil('#fff',64)}</div><div class="card">${form}</div>`+vRegForm(false)+vLast();
 const n=rd(k).size,t=tg(k),ok=n>=t,C=2*Math.PI*44;
 const ss=S.ses.filter(s=>s.type=='reto'&&mk(s.date)==k),df=ss.filter(s=>s.diff);
-return`<div class="hero"><div><p>${ml}</p><h2>${E(m.skill)}</h2><p>${E(m.start)||'—'} → ${E(m.goal)||'—'}</p><p>${m.freq} días por semana</p>${m.done?'':`<p>${ej}</p>`}</div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff55" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*Math.min(1,n/t)} ${C}" transform="rotate(-90 50 50)"/></svg><b>${n}/${t}</b></div></div>
+return`<div class="hero"><div><p>${ml}</p><h2>${E(m.skill)}</h2><p>${E(m.start)||'—'} → ${E(m.goal)||'—'}</p><p>${m.freq} días por semana</p></div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff55" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*Math.min(1,n/t)} ${C}" transform="rotate(-90 50 50)"/></svg><b>${n}/${t}</b></div></div>
 <div class="card">${m.done?`<p style="display:flex;align-items:center;gap:8px">${duckArt(m.duck,40)} <span>Reto conseguido · <button class="lk" onclick="ficha(${m.duck})">ver pato</button></span></p>`:`<button ${ok?'':'class="s"'} onclick="finish()">${ok?'Completar reto y descubrir pato':'Faltan '+(t-n)+' días para completar el reto'}</button>`}<details><summary class="mut">Editar reto</summary>${form}</details></div>`
 +vRegForm(true)+vLast()+
 `<div class="card"><h2>Informe de ${ml}</h2><p class="mut">${n} días · ${ss.length} sesiones${df.length?' · dificultad media '+(df.reduce((a,x)=>a+ +x.diff,0)/df.length).toFixed(1)+'/5':''}</p><textarea placeholder="Conclusiones del experimento…" onchange="setConcl('${k}',this.value)">${E(m.concl)}</textarea></div>`}
@@ -189,11 +201,11 @@ function quick(){if(!S.months[mk(sel)])return alert('Define primero el reto de e
 /* ---------- PATOS ---------- */
 function vDucks(){const U=unl(),by={};U.forEach(m=>by[m.duck]=1);
 return`<div class="card"><h2>Patoteca · ${U.length}/12</h2><div class="dg">${D.map((d,i)=>by[i]?`<button class="dk" onclick="ficha(${i})">${duckArt(i,64)}<span>${d[0]}</span></button>`:`<div class="dk lock">${duckSil('#c9d8e2',56)}<span>?</span></div>`).join('')}</div>
-<p class="mut" style="margin-top:12px">Cada reto completado descubre un pato al azar. <button class="lk" onclick="ficha(0,'ej')" style="color:var(--b)">Ver un pato de ejemplo</button></p></div>`+vYear()}
+<p class="mut" style="margin-top:12px">Cada reto completado descubre un pato al azar.</p></div>`+vYear()}
 function vYear(){const y=new Date().getFullYear();return`<div class="card"><h2>Resumen ${y}</h2>${MES.map((n,i)=>{const m=S.months[`${y}-${String(i+1).padStart(2,'0')}`];return`<div class="it"><b>${n}</b> ${m?E(m.skill)+' · '+(m.done?'✅ '+D[m.duck][0]:'en curso'):'<span class="mut">—</span>'}</div>`}).join('')}</div>`}
 function closeM(){$('#md').hidden=true}
 function ficha(i,mode){const d=D[i],e=$('#md');e.hidden=false;e.onclick=ev=>{if(ev.target==e)closeM()};
-e.innerHTML=`<div class="card">${mode=='new'?'<h2>🎉 ¡Nueva especie descubierta!</h2>':mode=='ej'?'<span class="tag">Ejemplo de pato que puedes ganar</span>':''}<div class="stage"><div class="${mode=='new'?'pop':''}">${duckArt(i,230,1)}</div></div><h2>${d[0]}</h2><p class="mut"><i>${d[1]}</i></p><p>${d[2]}</p>${mode=='ej'?'<p class="mut">Es solo un ejemplo: tu pato se elige al azar cuando completas un reto.</p>':''}<img id="ph" alt="" hidden><button onclick="closeM()">Cerrar</button></div>`;
+e.innerHTML=`<div class="card">${mode=='new'?'<h2>🎉 ¡Nueva especie descubierta!</h2>':''}<div class="stage"><div class="${mode=='new'?'pop':''}">${duckArt(i,230,1)}</div></div><h2>${d[0]}</h2><p class="mut"><i>${d[1]}</i></p><p>${d[2]}</p><ul class="cu">${CU[i].map(c=>`<li><b>${E(c[0])}</b>${E(c[1])}</li>`).join('')}</ul><img id="ph" alt="" hidden><button onclick="closeM()">Cerrar</button></div>`;
 fetch('https://es.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(d[1])).then(r=>r.json()).then(j=>{const u=j.thumbnail?.source,im=$('#ph');if(u&&im){im.onload=()=>im.hidden=false;im.src=u}}).catch(()=>{})}
 addEventListener('keydown',e=>{if(e.key=='Escape')closeM()});
 
@@ -225,7 +237,7 @@ function merge(a,b){const rs=Math.max(a.rs||0,b.rs||0),del=[...new Set([...(a.de
 const months={};new Set([...Object.keys(a.months||{}),...Object.keys(b.months||{})]).forEach(k=>{const x=a.months?.[k],y=b.months?.[k],m=!x?y:!y?x:((x.u||0)>=(y.u||0)?x:y);if(m&&(m.u||0)>=rs)months[k]=m});
 const la=a.lt||0,lb=b.lt||0,lib=la==lb?[...new Set([...(a.lib||[]),...(b.lib||[])])]:la>lb?a.lib||[]:b.lib||[];
 return{t:Math.max(a.t||0,b.t||0),rs,months,ses:[...ses.values()],lib,lt:Math.max(la,lb),del}}
-function setSy(st,msg){sy.st=st;sy.msg=msg||'';const b=$('#sy');if(b){b.className=st=='ok'?'ok':st=='err'?'er':'';b.textContent=st=='off'?'☁ Sin copia':st=='busy'?'☁ Sincronizando…':st=='err'?'⚠ Sin sincronizar':st=='idle'?'☁ Conectado':'☁ Sincronizado'}if(tab=='mas'&&!/INPUT|TEXTAREA/.test(document.activeElement?.tagName))render()}
+function setSy(st,msg){sy.st=st;sy.msg=msg||'';const b=$('#sy');if(b){b.className=st=='ok'?'ok':st=='err'?'er':'';b.textContent=st=='off'?'☁ Sin copia':st=='busy'?'☁ Sincronizando…':st=='err'?'⚠ Sin sincronizar':'☁ Sincronizado'}if(tab=='mas'&&!/INPUT|TEXTAREA/.test(document.activeElement?.tagName))render()}
 const ago=t=>{if(!t)return'nunca';const m=Math.round((Date.now()-t)/6e4);return m<1?'ahora mismo':m<60?'hace '+m+' min':m<1440?'hace '+Math.round(m/60)+' h':'el '+new Date(t).toLocaleDateString('es-ES')}
 async function gapi(url,opt,tk){let r;try{r=await fetch(url,{...opt,headers:{...hdr(tk),...(opt?.headers||{})},cache:'no-store'})}catch{throw new Error('Sin conexión con GitHub. Se reintentará más tarde.')}
 if(r.status==401)throw new Error('El token no es válido o ha caducado.');if(r.status==403)throw new Error('GitHub rechazó la petición (¿el token tiene permiso "gist"? ¿demasiadas peticiones?).');if(r.status==404)throw new Error('No encuentro ese Gist con ese token. Revisa el ID y que sea de la misma cuenta que el token.');if(!r.ok)throw new Error('Error de GitHub ('+r.status+').');return r.json()}
@@ -263,7 +275,7 @@ $('#app').innerHTML=warn+TABS.find(t=>t[0]==tab)[3]();$('#nav').innerHTML=TABS.m
 $('#lg').innerHTML=duckSil('#3fa4dc',38);
 const q=new URLSearchParams(location.search);if(q.get('a')=='reg')tab='reto';
 render();setSy(cfg()?'idle':'off');if(q.get('a')=='reg')setTimeout(()=>$('#reg')?.scrollIntoView(),50);
-if(cfg())syncNow()
+if(cfg()){sy.st='ok';setSy('ok');syncNow()}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'){syncNow();navigator.serviceWorker?.getRegistration().then(r=>r?.update())}});
 addEventListener('online',syncNow);
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){const had=!!navigator.serviceWorker.controller;let rl=false;
