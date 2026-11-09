@@ -22,7 +22,7 @@ h2,h3{font-family:Fredoka,"DM Sans",sans-serif;font-weight:600}h2{margin:0 0 6px
 input,select,textarea,button{font:inherit;color:inherit;border:0;border-radius:16px;padding:12px 14px;background:var(--l);width:100%;margin:4px 0;outline:0}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{box-shadow:0 0 0 2px var(--b)}textarea{min-height:64px}
 button{background:linear-gradient(135deg,var(--b),#5bbbea);color:#fff;font-weight:700;margin-top:8px;cursor:pointer}button.s{background:var(--l);color:var(--ink)}button.x{width:auto;padding:2px 9px;background:none;color:var(--mut);margin:0;float:right}
-button.lk{width:auto;display:inline;padding:0;margin:0;background:none;color:var(--b);text-decoration:underline;font-weight:700}.hero button.lk{color:#fff}
+button.lk{width:auto;display:inline;padding:0;margin:0;background:none;color:var(--b);text-decoration:underline;font-weight:700}.hero button.lk,.hero a{color:#fff}
 .row{display:flex;gap:8px}.row>*{flex:1}.mut{color:var(--mut);font-size:13px}summary{cursor:pointer;margin-top:10px}
 .chips{display:flex;gap:6px}.chips button{margin:4px 0 0;padding:10px 4px;font-size:13px;background:var(--l);color:var(--ink);font-weight:500}.chips button.on{background:linear-gradient(135deg,var(--b),#5bbbea);color:#fff;font-weight:700}
 .hero{background:linear-gradient(135deg,#2f93d0,#7cc8f0);color:#fff;border-radius:30px;padding:22px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;box-shadow:var(--sh)}
@@ -40,7 +40,7 @@ nav button{flex:1;margin:0;padding:7px 0;font-size:11px;background:none;color:va
 #md .stage{background:radial-gradient(circle at 50% 40%,var(--l),transparent 72%);border-radius:24px;padding:6px 0 0;margin-bottom:6px}
 #ph{width:100%;max-height:200px;object-fit:cover;border-radius:18px;background:var(--l);margin:6px 0}
 .pop{animation:pop .7s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.3) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-.cu{text-align:left;list-style:none;margin:10px 0 4px;padding:0}.cu li{padding:9px 0;border-top:1px solid var(--l);font-size:14px;line-height:1.4}.cu b{display:block;font-size:14px}.tag{display:inline-block;background:var(--l);color:var(--ink);border-radius:12px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:6px}
+.sg{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 6px}.sg button{width:auto;margin:0;padding:6px 12px;font-size:13px;font-weight:500;background:var(--l);color:var(--ink)}.cu{text-align:left;list-style:none;margin:10px 0 4px;padding:0}.cu li{padding:9px 0;border-top:1px solid var(--l);font-size:14px;line-height:1.4}.cu b{display:block;font-size:14px}.tag{display:inline-block;background:var(--l);color:var(--ink);border-radius:12px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:6px}
 #toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#16384f;color:#fff;padding:10px 16px;border-radius:16px;font-size:14px;font-weight:700;z-index:10;box-shadow:0 8px 24px #0004;max-width:90vw}
 code{background:var(--l);padding:1px 6px;border-radius:8px;font-size:13px;word-break:break-all}
 @media(prefers-reduced-motion:reduce){.pop{animation:none}}
@@ -153,24 +153,39 @@ function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeou
 function go(t,date){tab=t;if(date)regDate=date;render();if(t=='reto'&&date)setTimeout(()=>$('#reg')?.scrollIntoView({behavior:'smooth',block:'start'}),30);else scrollTo(0,0)}
 
 /* ---------- RETO ---------- */
+function safeUrl(v){v=String(v||'').trim();if(!v)return'';if(!/^https?:\/\//i.test(v))v='https://'+v;try{const u=new URL(v);return/^https?:$/.test(u.protocol)&&u.hostname.includes('.')?u.href:''}catch{return''}}
+function pastRetos(){const o=[],seen=new Set();Object.keys(S.months).sort().reverse().forEach(k=>{const m=S.months[k];[{skill:m.skill,start:m.start,goal:m.goal,freq:m.freq,video:m.video,k},...[...(m.prev||[])].reverse().map(p=>({...p,k}))].forEach(r=>{if(!r.skill)return;const key=[r.skill,r.start,r.goal].join('|').toLowerCase();if(seen.has(key))return;seen.add(key);o.push(r)})});return o}
+let PR=[];
+function fillPast(i,p){const r=PR[+i];if(!r)return;const f=(x,v)=>$('#'+p+'-'+x).value=v??'';f('skill',r.skill);f('start',r.start);f('goal',r.goal);f('freq',r.freq||3);f('video',r.video)}
+function retoForm(p,m,mode){PR=pastRetos();
+return`${PR.length?`<select onchange="fillPast(this.value,'${p}')" aria-label="Repetir un reto anterior"><option value="">↺ Repetir un reto anterior…</option>${PR.map((r,i)=>`<option value="${i}">${E(r.skill)}${r.start||r.goal?' · '+E(r.start||'—')+' → '+E(r.goal||'—'):''} (${MES[+r.k.slice(5)-1]})</option>`).join('')}</select>`:''}
+<input id="${p}-skill" name="reto-habilidad" type="text" placeholder="Habilidad (flexiones, equilibrio…)" value="${E(m?.skill)}">${S.lib.length?`<div class="sg" role="group" aria-label="Ideas de tu biblioteca">${S.lib.map(x=>`<button type="button" onclick="$('#${p}-skill').value=this.textContent">${E(x)}</button>`).join('')}</div>`:''}
+<input id="${p}-start" placeholder="Punto de partida (p. ej. 5 flexiones)" value="${E(m?.start)}"><input id="${p}-goal" placeholder="Objetivo (p. ej. 15 flexiones)" value="${E(m?.goal)}">
+<select id="${p}-freq" aria-label="Días por semana">${[1,2,3,4,5,6,7].map(n=>`<option value="${n}" ${(m?.freq||3)==n?'selected':''}>${n} día${n>1?'s':''} por semana</option>`).join('')}</select>
+<input id="${p}-video" inputmode="url" autocapitalize="off" autocomplete="off" placeholder="Enlace a un vídeo del reto (opcional)" value="${E(m?.video)}">`
++(mode=='edit'?`<input id="${p}-why" placeholder="Motivo del cambio (lesión, falta de tiempo…)"><div class="row"><button class="s" onclick="saveReto('${p}','edit')">Guardar cambios</button><button onclick="saveReto('${p}','change')">Cambiar de reto</button></div><p class="mut">«Guardar cambios» corrige este reto. «Cambiar de reto» lo sustituye por el que has escrito: los días que ya llevas este mes se mantienen y el anterior queda anotado en el informe.</p>`:`<button onclick="saveReto('${p}','new')">Guardar reto</button>`)}
 function vReto(){const k=cur(),m=S.months[k],ml=MES[+k.slice(5)-1];
-const form=`<input id="f-skill" list="dl" placeholder="Habilidad (flexiones, equilibrio…)" value="${E(m?.skill)}"><datalist id="dl">${S.lib.map(x=>`<option>${E(x)}</option>`).join('')}</datalist>
-<input id="f-start" placeholder="Punto de partida (p. ej. 5 flexiones)" value="${E(m?.start)}"><input id="f-goal" placeholder="Objetivo (p. ej. 15 flexiones)" value="${E(m?.goal)}">
-<select id="f-freq">${[1,2,3,4,5,6,7].map(n=>`<option value="${n}" ${(m?.freq||3)==n?'selected':''}>${n} día${n>1?'s':''} por semana</option>`).join('')}</select><button onclick="saveReto()">Guardar reto</button>`;
-if(!m)return`<div class="hero"><div><p>${ml}</p><h2>Elige tu reto del mes</h2><p>Un pato te espera al final.</p></div>${duckSil('#fff',64)}</div><div class="card">${form}</div>`+vRegForm(false)+vLast();
-const n=rd(k).size,t=tg(k),ok=n>=t,C=2*Math.PI*44;
+if(!m){const last=pastRetos()[0];return`<div class="hero"><div><p>${ml}</p><h2>Elige tu reto del mes</h2><p>Un pato te espera al final.</p></div>${duckSil('#fff',64)}</div>`
++(last?`<div class="card"><button onclick="repeatReto(0)">↺ Repetir «${E(last.skill)}» (${MES[+last.k.slice(5)-1]})</button><p class="mut">O elige otro reto más abajo.</p></div>`:'')
++`<div class="card">${retoForm('f',null,'new')}</div>`+vRegForm(false)+vLast()}
+const n=rd(k).size,t=tg(k),ok=n>=t,C=2*Math.PI*44,vu=safeUrl(m.video);
 const ss=S.ses.filter(s=>s.type=='reto'&&mk(s.date)==k),df=ss.filter(s=>s.diff);
-return`<div class="hero"><div><p>${ml}</p><h2>${E(m.skill)}</h2><p>${E(m.start)||'—'} → ${E(m.goal)||'—'}</p><p>${m.freq} días por semana</p></div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff55" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*Math.min(1,n/t)} ${C}" transform="rotate(-90 50 50)"/></svg><b>${n}/${t}</b></div></div>
-<div class="card">${m.done?`<p style="display:flex;align-items:center;gap:8px">${duckArt(m.duck,40)} <span>Reto conseguido · <button class="lk" onclick="ficha(${m.duck})">ver pato</button></span></p>`:`<button ${ok?'':'class="s"'} onclick="finish()">${ok?'Completar reto y descubrir pato':'Faltan '+(t-n)+' días para completar el reto'}</button>`}<details><summary class="mut">Editar reto</summary>${form}</details></div>`
+return`<div class="hero"><div><p>${ml}</p><h2>${E(m.skill)}</h2><p>${E(m.start)||'—'} → ${E(m.goal)||'—'}</p><p>${m.freq} días por semana</p>${vu?`<p><a href="${E(vu)}" target="_blank" rel="noopener noreferrer">▶ Ver vídeo del reto</a></p>`:''}</div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff55" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*Math.min(1,n/t)} ${C}" transform="rotate(-90 50 50)"/></svg><b>${n}/${t}</b></div></div>
+<div class="card">${m.done?`<p style="display:flex;align-items:center;gap:8px">${duckArt(m.duck,40)} <span>Reto conseguido · <button class="lk" onclick="ficha(${m.duck})">ver pato</button></span></p>`:`<button ${ok?'':'class="s"'} onclick="finish()">${ok?'Completar reto y descubrir pato':'Faltan '+(t-n)+' días para completar el reto'}</button>`}<details><summary class="mut">Editar o cambiar reto</summary>${retoForm('f',m,'edit')}</details></div>`
 +vRegForm(true)+vLast()+
-`<div class="card"><h2>Informe de ${ml}</h2><p class="mut">${n} días · ${ss.length} sesiones${df.length?' · dificultad media '+(df.reduce((a,x)=>a+ +x.diff,0)/df.length).toFixed(1)+'/5':''}</p><textarea placeholder="Conclusiones del experimento…" onchange="setConcl('${k}',this.value)">${E(m.concl)}</textarea></div>`}
+`<div class="card"><h2>Informe de ${ml}</h2><p class="mut">${n} días · ${ss.length} sesiones${df.length?' · dificultad media '+(df.reduce((a,x)=>a+ +x.diff,0)/df.length).toFixed(1)+'/5':''}</p>${(m.prev||[]).map(p=>`<p class="mut">Antes: ${E(p.skill)} (hasta el ${E(p.until)}${p.why?' · '+E(p.why):''})</p>`).join('')}<textarea placeholder="Conclusiones del experimento…" onchange="setConcl('${k}',this.value)">${E(m.concl)}</textarea></div>`}
 function setConcl(k,v){S.months[k].concl=v;touch(k);save()}
-function saveReto(){const k=cur(),o=S.months[k]||{};S.months[k]={...o,skill:$('#f-skill').value.trim(),start:$('#f-start').value,goal:$('#f-goal').value,freq:+$('#f-freq').value,tests:o.tests||[],u:Date.now()};if(!S.months[k].skill)return alert('Escribe una habilidad');save();render()}
+function saveReto(p,mode){const k=cur(),o=S.months[k]||{},v=i=>$('#'+p+'-'+i).value.trim(),skill=v('skill');if(!skill)return alert('Escribe una habilidad');
+const vid=v('video'),video=safeUrl(vid);if(vid&&!video)return alert('Ese enlace no parece válido. Pega la dirección completa del vídeo.');
+const n={skill,start:v('start'),goal:v('goal'),freq:+$('#'+p+'-freq').value,video};let prev=o.prev||[];
+if(mode=='change'&&o.skill){if(['skill','start','goal','freq','video'].every(f=>(o[f]||'')==(n[f]||'')))return alert('Aún no has cambiado nada: escribe el reto nuevo y vuelve a pulsar.');prev=[...prev,{skill:o.skill,start:o.start,goal:o.goal,freq:o.freq,video:o.video,until:today(),why:v('why')}]}
+S.months[k]={...o,...n,prev,tests:o.tests||[],u:Date.now()};save();render();toast(mode=='change'?'Reto cambiado ✓ · tus días se mantienen':'Reto guardado ✓')}
+function repeatReto(i){const r=pastRetos()[i];if(!r)return;S.months[cur()]={skill:r.skill,start:r.start,goal:r.goal,freq:r.freq||3,video:r.video||'',prev:[],tests:[],u:Date.now()};save();render();toast('Reto repetido ✓')}
 function finish(){const k=cur(),m=S.months[k];if(rd(k).size<tg(k))return alert('Aún te faltan días de práctica para completar el reto.');
 const used=unl().map(x=>x.duck),free=D.map((_,i)=>i).filter(i=>!used.includes(i));if(!free.length)return;m.done=today();m.duck=free[Math.random()*free.length|0];touch(k);save();render();ficha(m.duck,'new')}
 
 /* ---------- REGISTRO (ahora dentro de la pantalla Reto) ---------- */
-const sRow=s=>`<div class="it"><b>${s.date}</b> ${s.type=='reto'?'🎯 '+E(S.months[mk(s.date)]?.skill):s.type=='habitual'?'🚴 '+E(s.act):'📓 Diario'} <button class="x" onclick="delS(${s.id})" aria-label="Borrar registro">✕</button><br><span class="mut">${[s.reps&&s.reps+' rep',s.min&&s.min+' min',s.diff&&'dif. '+s.diff+'/5',s.feel,s.easy&&'Fácil: '+s.easy,s.hard&&'Cuesta: '+s.hard,s.notes].filter(Boolean).map(E).join(' · ')}</span></div>`;
+const sRow=s=>`<div class="it"><b>${s.date}</b> ${s.type=='reto'?'🎯 '+E(s.skill||S.months[mk(s.date)]?.skill):s.type=='habitual'?'🚴 '+E(s.act):'📓 Diario'} <button class="x" onclick="delS(${s.id})" aria-label="Borrar registro">✕</button><br><span class="mut">${[s.reps&&s.reps+' rep',s.min&&s.min+' min',s.diff&&'dif. '+s.diff+'/5',s.feel,s.easy&&'Fácil: '+s.easy,s.hard&&'Cuesta: '+s.hard,s.notes].filter(Boolean).map(E).join(' · ')}</span></div>`;
 function vRegForm(hasReto){const t=regType||(hasReto?'reto':'habitual'),d=regDate||today();
 return`<div class="card" id="reg"><h2>Registrar sesión</h2><input type="date" id="r-date" value="${d}" aria-label="Fecha"><input type="hidden" id="r-type" value="${t}">
 <div class="chips" role="group" aria-label="Tipo de registro">${[['reto','🎯 Reto'],['habitual','🚴 Habitual'],['diario','📓 Diario']].map(x=>`<button data-t="${x[0]}" class="${x[0]==t?'on':''}" onclick="setT('${x[0]}')">${x[1]}</button>`).join('')}</div>
@@ -180,7 +195,7 @@ return`<div class="card" id="reg"><h2>Registrar sesión</h2><input type="date" i
 <input id="r-feel" placeholder="Sensaciones del cuerpo"><textarea id="r-notes" placeholder="Observaciones"></textarea><button onclick="addS()">Guardar registro</button></div>`}
 function setT(t){regType=t;$('#r-type').value=t;document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('on',b.dataset.t==t));$('#r-act').hidden=t!='habitual';$('#x-met').hidden=t=='diario';$('#x-dia').hidden=t!='diario'}
 function addS(){const g=i=>$('#r-'+i)?.value||'',t=g('type'),d=g('date')||today();if(t=='reto'&&!S.months[mk(d)])return alert('Define primero el reto de ese mes');
-S.ses.push({id:Date.now(),date:d,type:t,act:t=='habitual'?g('act'):'',reps:g('reps'),min:g('min'),diff:g('diff'),feel:g('feel'),notes:g('notes'),easy:g('easy'),hard:g('hard')});sel=d;regDate=null;save();render();toast('Registro guardado ✓')}
+S.ses.push({id:Date.now(),date:d,type:t,skill:t=='reto'?S.months[mk(d)]?.skill||'':'',act:t=='habitual'?g('act'):'',reps:g('reps'),min:g('min'),diff:g('diff'),feel:g('feel'),notes:g('notes'),easy:g('easy'),hard:g('hard')});sel=d;regDate=null;save();render();toast('Registro guardado ✓')}
 function delS(id){if(confirm('¿Borrar este registro?')){S.ses=S.ses.filter(s=>s.id!=id);S.del.push(id);save();render()}}
 const sorted=()=>[...S.ses].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
 function vLast(){const L=sorted().slice(0,3);return`<div class="card"><h2>Últimos registros</h2>${L.map(sRow).join('')||'<p class="mut">Aún no hay registros.</p>'}${S.ses.length>3?`<button class="s" onclick="go('hist')">Ver historial completo</button>`:''}</div>`}
@@ -196,7 +211,7 @@ return`<div class="card"><div class="row"><button class="s" onclick="cal.setMont
 <p class="mut">${m?`Constancia: ${R.size} de ${tg(k)} días del reto. `:''}Azul = reto · punto = entrenamiento habitual</p></div>
 <div class="card"><h2>${sel}</h2>${ds.map(sRow).join('')||'<p class="mut">Sin registros.</p>'}
 <div class="row"><button onclick="quick()">✓ Marcar reto</button><button class="s" onclick="go('reto','${sel}')">+ Registrar</button></div></div>`}
-function quick(){if(!S.months[mk(sel)])return alert('Define primero el reto de ese mes');if(S.ses.some(s=>s.date==sel&&s.type=='reto'))return;S.ses.push({id:Date.now(),date:sel,type:'reto'});save();render()}
+function quick(){if(!S.months[mk(sel)])return alert('Define primero el reto de ese mes');if(S.ses.some(s=>s.date==sel&&s.type=='reto'))return;S.ses.push({id:Date.now(),date:sel,type:'reto',skill:S.months[mk(sel)].skill});save();render()}
 
 /* ---------- PATOS ---------- */
 function vDucks(){const U=unl(),by={};U.forEach(m=>by[m.duck]=1);
@@ -271,7 +286,7 @@ return`<div class="card"><h2>Instalar en el móvil</h2>${dip?`<button onclick="d
 /* ---------- RENDER ---------- */
 const TABS=[['reto','🎯','Reto',vReto],['cal','📅','Calendario',vCal],['hist','📋','Historial',vHist],['pat','🦆','Patos',vDucks],['mas','⚙️','Más',vMore]];
 function render(){const warn=location.protocol=='file:'?`<div class="warn"><b>Estás abriendo el archivo en local</b>Lo que guardes aquí no está en la versión online ni se sincroniza con tu móvil. Abre la app desde su dirección web.</div>`:'';
-$('#app').innerHTML=warn+TABS.find(t=>t[0]==tab)[3]();$('#nav').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" ${t[0]==tab?'aria-current="page"':''} onclick="go('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}
+$('#app').innerHTML=warn+TABS.find(t=>t[0]==tab)[3]();document.querySelectorAll('#app input:not([type=date]):not([type=hidden]):not([type=file]),#app textarea').forEach(i=>{i.setAttribute('autocomplete','off');i.setAttribute('data-lpignore','true');i.setAttribute('data-1p-ignore','');i.setAttribute('data-form-type','other');if(!i.name)i.name=i.id||'campo'});$('#nav').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" ${t[0]==tab?'aria-current="page"':''} onclick="go('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}
 $('#lg').innerHTML=duckSil('#3fa4dc',38);
 const q=new URLSearchParams(location.search);if(q.get('a')=='reg')tab='reto';
 render();setSy(cfg()?'idle':'off');if(q.get('a')=='reg')setTimeout(()=>$('#reg')?.scrollIntoView(),50);
